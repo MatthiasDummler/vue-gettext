@@ -1,6 +1,5 @@
 /.tmp/
 /node_modules/
-dist
 npm-debug.log
 manifest.json
 *.DS_Store
@@ -10,5 +9,4 @@ manifest.json
 .*.pid
 *.mo
 ./coverage
-
 .tm_properties
