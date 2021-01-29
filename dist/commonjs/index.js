@@ -11,7 +11,7 @@ var __assign = (this && this.__assign) || function () {
     return __assign.apply(this, arguments);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.useGettext = exports.$ngettext = exports.$pgettext = exports.$gettext = exports.translate = exports.GetTextSymbol = void 0;
+exports.useGettext = exports.$ngettext = exports.$pgettext = exports.$gettext = exports.plugin = exports.translate = exports.GetTextSymbol = void 0;
 var component_1 = require("./component");
 var directive_1 = require("./directive");
 var interpolate_1 = require("./interpolate");
@@ -27,6 +27,7 @@ var defaultOptions = {
 };
 exports.GetTextSymbol = Symbol("GETTEXT");
 exports.translate = null;
+exports.plugin = null;
 function replaceVars(string, vars) {
     if (!vars) {
         return string;
@@ -59,28 +60,28 @@ function install(app, options) {
     });
     var mergedOptions = __assign(__assign({}, defaultOptions), options);
     var globalProperties = app.config.globalProperties;
-    var plugin = vue_1.reactive({
+    exports.plugin = vue_1.reactive({
         options: mergedOptions,
         available: mergedOptions.availableLanguages,
         current: mergedOptions.defaultLanguage,
     });
     if (options.mixins) {
         Object.keys(options.mixins).map(function (key) {
-            return (plugin[key] = plugin.options.mixins[key](plugin));
+            return (exports.plugin[key] = exports.plugin.options.mixins[key](exports.plugin));
         });
     }
-    globalProperties.$language = plugin;
-    app.directive("translate", directive_1.default(plugin));
+    globalProperties.$language = exports.plugin;
+    app.directive("translate", directive_1.default(exports.plugin));
     app.component("translate", component_1.default);
-    globalProperties.$translations = plugin.options.translations;
-    exports.translate = translate_1.default(plugin);
+    globalProperties.$translations = exports.plugin.options.translations;
+    exports.translate = translate_1.default(exports.plugin);
     globalProperties.$gettext = exports.translate.gettext.bind(exports.translate);
     globalProperties.$pgettext = exports.translate.pgettext.bind(exports.translate);
     globalProperties.$ngettext = exports.translate.ngettext.bind(exports.translate);
     globalProperties.$npgettext = exports.translate.npgettext.bind(exports.translate);
-    globalProperties.$gettextInterpolate = interpolate_1.default(plugin);
-    app.provide(exports.GetTextSymbol, plugin);
-    return plugin;
+    globalProperties.$gettextInterpolate = interpolate_1.default(exports.plugin);
+    app.provide(exports.GetTextSymbol, exports.plugin);
+    return exports.plugin;
 }
 exports.default = install;
 exports.useGettext = function () { return vue_1.inject(exports.GetTextSymbol); };

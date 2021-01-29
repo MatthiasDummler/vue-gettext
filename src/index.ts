@@ -25,6 +25,7 @@ const defaultOptions: GetTextOptions = {
 export const GetTextSymbol = Symbol("GETTEXT");
 
 export let translate: ReturnType<typeof translateRaw> = null;
+export let plugin: GetText = null;
 
 function replaceVars(string: string, vars?: Record<string, any>) {
   if (!vars) {
@@ -70,7 +71,7 @@ export default function install(app: App, options: Partial<GetTextOptions> = {})
 
   const globalProperties = app.config.globalProperties;
 
-  let plugin: GetText = reactive({
+  plugin = reactive({
     options: mergedOptions,
     available: mergedOptions.availableLanguages,
     current: mergedOptions.defaultLanguage,

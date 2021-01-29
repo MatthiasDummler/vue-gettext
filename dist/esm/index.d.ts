@@ -16,6 +16,7 @@ export interface GetTextOptions {
 }
 export declare const GetTextSymbol: unique symbol;
 export declare let translate: ReturnType<typeof translateRaw>;
+export declare let plugin: GetText;
 export declare function $gettext(msg: string, vars?: Record<string, any>): string;
 export declare function $pgettext(ctx: string, msg: string, vars?: Record<string, any>): string;
 export declare function $ngettext(singular: string, plural: string, n: number, vars?: Record<string, any>): string;

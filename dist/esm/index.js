@@ -24,6 +24,7 @@ var defaultOptions = {
 };
 export var GetTextSymbol = Symbol("GETTEXT");
 export var translate = null;
+export var plugin = null;
 function replaceVars(string, vars) {
     if (!vars) {
         return string;
@@ -53,7 +54,7 @@ export default function install(app, options) {
     });
     var mergedOptions = __assign(__assign({}, defaultOptions), options);
     var globalProperties = app.config.globalProperties;
-    var plugin = reactive({
+    plugin = reactive({
         options: mergedOptions,
         available: mergedOptions.availableLanguages,
         current: mergedOptions.defaultLanguage,
