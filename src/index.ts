@@ -26,15 +26,15 @@ export const GetTextSymbol = Symbol("GETTEXT");
 
 export let translate: ReturnType<typeof translateRaw> = null;
 
-export function $gettext(msg: string): string {
+export function $gettext(msg: string, vars?: Record<string, any>): string {
   return translate ? translate.gettext(msg) : msg;
 }
 
-export function $pgettext(ctx: string, msg: string): string {
+export function $pgettext(ctx: string, msg: string, vars?: Record<string, any>): string {
   return translate ? translate.pgettext(ctx, msg) : msg;
 }
 
-export function $ngettext(singular: string, plural: string, n: number): string {
+export function $ngettext(singular: string, plural: string, n: number, vars?: Record<string, any>): string {
   return translate ? translate.ngettext(singular, plural, n) : n === 1 ? singular : plural;
 }
 

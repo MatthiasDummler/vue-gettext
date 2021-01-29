@@ -27,15 +27,15 @@ var defaultOptions = {
 };
 exports.GetTextSymbol = Symbol("GETTEXT");
 exports.translate = null;
-function $gettext(msg) {
+function $gettext(msg, vars) {
     return exports.translate ? exports.translate.gettext(msg) : msg;
 }
 exports.$gettext = $gettext;
-function $pgettext(ctx, msg) {
+function $pgettext(ctx, msg, vars) {
     return exports.translate ? exports.translate.pgettext(ctx, msg) : msg;
 }
 exports.$pgettext = $pgettext;
-function $ngettext(singular, plural, n) {
+function $ngettext(singular, plural, n, vars) {
     return exports.translate ? exports.translate.ngettext(singular, plural, n) : n === 1 ? singular : plural;
 }
 exports.$ngettext = $ngettext;
