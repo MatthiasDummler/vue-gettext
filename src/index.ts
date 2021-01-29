@@ -26,6 +26,18 @@ export const GetTextSymbol = Symbol("GETTEXT");
 
 export let translate: ReturnType<typeof translateRaw> = null;
 
+export function $gettext(msg: string): string {
+  return translate ? translate.gettext(msg) : msg;
+}
+
+export function $pgettext(ctx: string, msg: string): string {
+  return translate ? translate.pgettext(ctx, msg) : msg;
+}
+
+export function $ngettext(singular: string, plural: string, n: number): string {
+  return translate ? translate.ngettext(singular, plural, n) : n === 1 ? singular : plural;
+}
+
 export interface GetText {
   options: GetTextOptions;
   available: { [key: string]: string };

@@ -11,7 +11,7 @@ var __assign = (this && this.__assign) || function () {
     return __assign.apply(this, arguments);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.useGettext = exports.translate = exports.GetTextSymbol = void 0;
+exports.useGettext = exports.$ngettext = exports.$pgettext = exports.$gettext = exports.translate = exports.GetTextSymbol = void 0;
 var component_1 = require("./component");
 var directive_1 = require("./directive");
 var interpolate_1 = require("./interpolate");
@@ -27,6 +27,18 @@ var defaultOptions = {
 };
 exports.GetTextSymbol = Symbol("GETTEXT");
 exports.translate = null;
+function $gettext(msg) {
+    return exports.translate ? exports.translate.gettext(msg) : msg;
+}
+exports.$gettext = $gettext;
+function $pgettext(ctx, msg) {
+    return exports.translate ? exports.translate.pgettext(ctx, msg) : msg;
+}
+exports.$pgettext = $pgettext;
+function $ngettext(singular, plural, n) {
+    return exports.translate ? exports.translate.ngettext(singular, plural, n) : n === 1 ? singular : plural;
+}
+exports.$ngettext = $ngettext;
 function install(app, options) {
     if (options === void 0) { options = {}; }
     Object.keys(options).forEach(function (key) {

@@ -24,6 +24,15 @@ var defaultOptions = {
 };
 export var GetTextSymbol = Symbol("GETTEXT");
 export var translate = null;
+export function $gettext(msg) {
+    return translate ? translate.gettext(msg) : msg;
+}
+export function $pgettext(ctx, msg) {
+    return translate ? translate.pgettext(ctx, msg) : msg;
+}
+export function $ngettext(singular, plural, n) {
+    return translate ? translate.ngettext(singular, plural, n) : n === 1 ? singular : plural;
+}
 export default function install(app, options) {
     if (options === void 0) { options = {}; }
     Object.keys(options).forEach(function (key) {
