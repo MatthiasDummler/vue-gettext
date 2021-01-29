@@ -1,3 +1,4 @@
+import translateRaw from "./translate";
 import { App } from "vue";
 export interface GetTextOptions {
     availableLanguages: {
@@ -14,6 +15,7 @@ export interface GetTextOptions {
     };
 }
 export declare const GetTextSymbol: unique symbol;
+export declare let translate: ReturnType<typeof translateRaw>;
 export interface GetText {
     options: GetTextOptions;
     available: {

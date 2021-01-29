@@ -23,6 +23,7 @@ var defaultOptions = {
     translations: {},
 };
 export var GetTextSymbol = Symbol("GETTEXT");
+export var translate = null;
 export default function install(app, options) {
     if (options === void 0) { options = {}; }
     Object.keys(options).forEach(function (key) {
@@ -46,7 +47,7 @@ export default function install(app, options) {
     app.directive("translate", Directive(plugin));
     app.component("translate", Component);
     globalProperties.$translations = plugin.options.translations;
-    var translate = translateRaw(plugin);
+    translate = translateRaw(plugin);
     globalProperties.$gettext = translate.gettext.bind(translate);
     globalProperties.$pgettext = translate.pgettext.bind(translate);
     globalProperties.$ngettext = translate.ngettext.bind(translate);

@@ -11,7 +11,7 @@ var __assign = (this && this.__assign) || function () {
     return __assign.apply(this, arguments);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.useGettext = exports.GetTextSymbol = void 0;
+exports.useGettext = exports.translate = exports.GetTextSymbol = void 0;
 var component_1 = require("./component");
 var directive_1 = require("./directive");
 var interpolate_1 = require("./interpolate");
@@ -26,6 +26,7 @@ var defaultOptions = {
     translations: {},
 };
 exports.GetTextSymbol = Symbol("GETTEXT");
+exports.translate = null;
 function install(app, options) {
     if (options === void 0) { options = {}; }
     Object.keys(options).forEach(function (key) {
@@ -49,11 +50,11 @@ function install(app, options) {
     app.directive("translate", directive_1.default(plugin));
     app.component("translate", component_1.default);
     globalProperties.$translations = plugin.options.translations;
-    var translate = translate_1.default(plugin);
-    globalProperties.$gettext = translate.gettext.bind(translate);
-    globalProperties.$pgettext = translate.pgettext.bind(translate);
-    globalProperties.$ngettext = translate.ngettext.bind(translate);
-    globalProperties.$npgettext = translate.npgettext.bind(translate);
+    exports.translate = translate_1.default(plugin);
+    globalProperties.$gettext = exports.translate.gettext.bind(exports.translate);
+    globalProperties.$pgettext = exports.translate.pgettext.bind(exports.translate);
+    globalProperties.$ngettext = exports.translate.ngettext.bind(exports.translate);
+    globalProperties.$npgettext = exports.translate.npgettext.bind(exports.translate);
     globalProperties.$gettextInterpolate = interpolate_1.default(plugin);
     app.provide(exports.GetTextSymbol, plugin);
     return plugin;

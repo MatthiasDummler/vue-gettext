@@ -24,6 +24,8 @@ const defaultOptions: GetTextOptions = {
 
 export const GetTextSymbol = Symbol("GETTEXT");
 
+export let translate: ReturnType<typeof translateRaw> = null;
+
 export interface GetText {
   options: GetTextOptions;
   available: { [key: string]: string };
@@ -61,7 +63,7 @@ export default function install(app: App, options: Partial<GetTextOptions> = {})
   app.component("translate", Component);
 
   globalProperties.$translations = plugin.options.translations;
-  const translate = translateRaw(plugin);
+  translate = translateRaw(plugin);
   globalProperties.$gettext = translate.gettext.bind(translate);
   globalProperties.$pgettext = translate.pgettext.bind(translate);
   globalProperties.$ngettext = translate.ngettext.bind(translate);
