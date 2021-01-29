@@ -26,16 +26,28 @@ export const GetTextSymbol = Symbol("GETTEXT");
 
 export let translate: ReturnType<typeof translateRaw> = null;
 
+function replaceVars(string: string, vars?: Record<string, any>) {
+  if (!vars) {
+    return string;
+  }
+  for (const varName in vars) {
+    const varValue = vars[varName];
+    const regexp = new RegExp(`%{\\s*${varName}\\s*}`, 'g')
+    string = string.replace(regexp, varValue);
+  }
+  return string;
+}
+
 export function $gettext(msg: string, vars?: Record<string, any>): string {
-  return translate ? translate.gettext(msg) : msg;
+  return replaceVars(translate ? translate.gettext(msg) : msg, vars);
 }
 
 export function $pgettext(ctx: string, msg: string, vars?: Record<string, any>): string {
-  return translate ? translate.pgettext(ctx, msg) : msg;
+  return replaceVars(translate ? translate.pgettext(ctx, msg) : msg, vars);
 }
 
 export function $ngettext(singular: string, plural: string, n: number, vars?: Record<string, any>): string {
-  return translate ? translate.ngettext(singular, plural, n) : n === 1 ? singular : plural;
+  return replaceVars(translate ? translate.ngettext(singular, plural, n) : n === 1 ? singular : plural, vars);
 }
 
 export interface GetText {

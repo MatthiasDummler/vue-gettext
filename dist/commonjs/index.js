@@ -27,16 +27,27 @@ var defaultOptions = {
 };
 exports.GetTextSymbol = Symbol("GETTEXT");
 exports.translate = null;
+function replaceVars(string, vars) {
+    if (!vars) {
+        return string;
+    }
+    for (var varName in vars) {
+        var varValue = vars[varName];
+        var regexp = new RegExp("%{\\s*" + varName + "\\s*}", 'g');
+        string = string.replace(regexp, varValue);
+    }
+    return string;
+}
 function $gettext(msg, vars) {
-    return exports.translate ? exports.translate.gettext(msg) : msg;
+    return replaceVars(exports.translate ? exports.translate.gettext(msg) : msg, vars);
 }
 exports.$gettext = $gettext;
 function $pgettext(ctx, msg, vars) {
-    return exports.translate ? exports.translate.pgettext(ctx, msg) : msg;
+    return replaceVars(exports.translate ? exports.translate.pgettext(ctx, msg) : msg, vars);
 }
 exports.$pgettext = $pgettext;
 function $ngettext(singular, plural, n, vars) {
-    return exports.translate ? exports.translate.ngettext(singular, plural, n) : n === 1 ? singular : plural;
+    return replaceVars(exports.translate ? exports.translate.ngettext(singular, plural, n) : n === 1 ? singular : plural, vars);
 }
 exports.$ngettext = $ngettext;
 function install(app, options) {
